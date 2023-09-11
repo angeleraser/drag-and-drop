@@ -1,35 +1,42 @@
 const draggableItem = document.querySelector('[draggable="true"]');
-const dragoverZone = document.querySelector(".dropzone-container");
+const dragoverZone = document.querySelectorAll(".dropzone");
 
 function dragStart(ev) {
-  ev.currentTarget.classList.add("dragging");
-  ev.dataTransfer.setData("id", ev.target.dataset.id);
+  this.classList.add("dragging");
+  ev.dataTransfer.setData("id", this.dataset.id);
+}
+
+function dragEnd(ev) {
+  ev.preventDefault();
+  this.classList.remove("dragging");
+}
+
+function dragEnter(ev) {
+  ev.preventDefault();
+  this.classList.add("dragging-over");
 }
 
 function dragOver(ev) {
   ev.preventDefault();
-  ev.target.classList.add("dragging-over");
 }
 
-function dragLeave(ev) {
-  ev.target.classList.remove("dragging-over");
-}
-
-function dragEnd(ev) {
-  ev.target.classList.remove("dragging");
+function dragLeave() {
+  this.classList.remove("dragging-over");
 }
 
 function drop(ev) {
   ev.preventDefault();
-  const id = ev.dataTransfer.getData("id");
-  const element = document.querySelector(`[data-id="${id}"]`);
-  ev.target.appendChild(element);
-  ev.target.classList.remove("dragging-over");
+  this.append(draggableItem);
+  draggableItem.classList.remove("dragging");
+  this.classList.remove("dragging-over");
 }
 
 draggableItem.addEventListener("dragstart", dragStart);
 draggableItem.addEventListener("dragend", dragEnd);
 
-dragoverZone.addEventListener("dragover", dragOver);
-dragoverZone.addEventListener("drop", drop);
-dragoverZone.addEventListener("dragleave", dragLeave);
+dragoverZone.forEach((el) => {
+  el.addEventListener("dragenter", dragEnter);
+  el.addEventListener("dragleave", dragLeave);
+  el.addEventListener("dragover", dragOver);
+  el.addEventListener("drop", drop);
+});
