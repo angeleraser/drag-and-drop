@@ -1,0 +1,47 @@
+@import url("./reset.min.css");
+
+:root {
+  --bg-color: #f9f9f9;
+  --blue: #068fff;
+  --black: #001c30;
+  --white: #ffffff;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-color);
+  min-width: 360px;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.dropzone {
+  width: 150px;
+  height: 150px;
+  background-color: var(--white);
+  border: 2px solid var(--black);
+}
+
+.dropzone.dragging-over {
+  border-style: dashed;
+}
+
+.draggable-item {
+  cursor: pointer;
+}
+
+.draggable-item > * {
+  pointer-events: none;
+}
+
+.draggable-item.dragging {
+  opacity: 0.5;
+}
