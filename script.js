@@ -13,11 +13,11 @@ function dragEnd(ev) {
 
 function dragEnter(ev) {
   ev.preventDefault();
-  this.classList.add("dragging-over");
 }
 
 function dragOver(ev) {
   ev.preventDefault();
+  this.classList.add('dragging-over');
 }
 
 function dragLeave() {
