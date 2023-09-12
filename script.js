@@ -16,8 +16,9 @@ function dragEnter(ev) {
 }
 
 function dragOver(ev) {
+  if (!ev.dataTransfer.types.includes("id")) return;
   ev.preventDefault();
-  this.classList.add('dragging-over');
+  this.classList.add("dragging-over");
 }
 
 function dragLeave() {
@@ -26,14 +27,16 @@ function dragLeave() {
 
 function drop(ev) {
   ev.preventDefault();
-  this.append(draggableItem);
-  draggableItem.classList.remove("dragging");
+  const id = ev.dataTransfer.getData("id");
+  if (!id) return;
+  const element = document.querySelector(`[data-id="${id}"]`);
+  this.append(element);
+  ev.dataTransfer.clearData('id');
   this.classList.remove("dragging-over");
 }
 
 draggableItem.addEventListener("dragstart", dragStart);
 draggableItem.addEventListener("dragend", dragEnd);
-
 dragoverZone.forEach((el) => {
   el.addEventListener("dragenter", dragEnter);
   el.addEventListener("dragleave", dragLeave);
